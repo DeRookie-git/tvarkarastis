@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Website</title>
+    <title>TVARKARASTIS</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -44,7 +44,17 @@
     <button onclick="saveToCSV()">Save to CSV</button>
     <button onclick="loadFromCSV()">Load from CSV</button>
     <button onclick="clearAllData()">Clear All Data</button>
-    
+    <!--<button onclick="changeColor()">Change Color</button>-->
+    <div id="colorDropdown" style="display: none;">
+        <select id="colorSelect" onchange="selectColor()">
+            <option value="default">Select Color</option>
+            <option value="#ff9999">Red</option>
+            <option value="#99ff99">Green</option>
+            <option value="#9999ff">Blue</option>
+            <option value="#ffff99">Yellow</option>
+            <option value="#ffccff">Pink</option>
+        </select>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

@@ -18,7 +18,7 @@ body {
 
 .delete-btn {
     margin-left: 10px;
-    color: red;
+    color: rgb(255, 0, 0);
     cursor: pointer;
 }
 
@@ -47,4 +47,24 @@ body {
 /* Set background color of the page */
 body {
     background-color: #92987d;
+}
+
+.red-background {
+    background-color: red;
+}
+
+.green-background {
+    background-color: green;
+}
+
+.blue-background {
+    background-color: blue;
+}
+
+.yellow-background {
+    background-color: yellow;
+}
+
+.pink-background {
+    background-color: pink;
 }

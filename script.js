@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Load data from file on page load
-    loadDataFromFile();
 });
 
 function addElement(day) {
@@ -30,18 +28,19 @@ function addElement(day) {
         return;
     }
 
-    // Create a string entry for the user input (excluding the day)
+    // Create a string entry for the user input
     var entry = `${timeStart},${timeEnd},${name},${surname},${activity},${roomNumber},${buildingCode}`;
 
-    // Append the entry to the respective day's list
+    // Append the entry to the respective day's list with the day stored as a data attribute
     var dayList = document.getElementById(day + "List");
     var listItem = document.createElement("li");
     listItem.innerHTML = `<span class="delete-btn" onclick="deleteElement(this, '${day}')">Delete</span>${entry}`;
     listItem.setAttribute('data-day', day); // Store the day information as a data attribute
     dayList.appendChild(listItem);
 
-    // Save the entry separately for CSV export
-    saveEntryToStorage(entry);
+    // Save the entry separately for CSV export (including the day at the beginning)
+    var fullEntry = `${day},${entry}`;
+    saveEntryToStorage(fullEntry);
 
     // Save data to file
     saveDataToFile();
@@ -87,19 +86,21 @@ function saveEntryToStorage(entry) {
 function saveToCSV() {
     var entries = JSON.parse(localStorage.getItem('entries')) || [];
 
-    // Convert entries to CSV format
     var csvContent = "data:text/csv;charset=utf-8,";
+
     entries.forEach(function (entry) {
-        csvContent += entry + "\n";
+        var day = entry.split(',')[0]; // Extract day from entry
+        var entryData = entry.split(',').slice(1).join(','); // Extract entry data
+        var modifiedEntry = `${day},${entryData}`; // Concatenate day and entry data
+        csvContent += modifiedEntry + "\n"; // Add the modified entry to CSV content
     });
 
-    // Create a download link for the CSV file
     var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", "schedule.csv");
-    document.body.appendChild(link); // Append the link to the DOM
-    link.click(); // Simulate click to trigger the download
+    document.body.appendChild(link);
+    link.click();
 }
 
 function processDataFromCSV(csv) {
@@ -108,22 +109,19 @@ function processDataFromCSV(csv) {
     entries.forEach(function (entry) {
         const [day, start, end, name, surname, activity, roomNumber, buildingCode] = entry.split(',');
 
-        // Construct the entry excluding the day of the week
         const reconstructedEntry = `${start},${end},${name},${surname},${activity},${roomNumber},${buildingCode}`;
 
-        // Create a list item for the reconstructed entry
         const listItem = document.createElement("li");
-        listItem.dataset.day = day; // Store the day information
+        listItem.setAttribute("data-day", day); // Set the data-day attribute
         listItem.innerHTML = `<span class="delete-btn" onclick="deleteElement(this, '${day}')">Delete</span>${reconstructedEntry}`;
 
-        // Get the respective day's list and append the reconstructed entry
         const dayList = document.getElementById(day + "List");
         dayList.appendChild(listItem);
     });
 }
 
+
 function loadFromCSV() {
-    // Clear existing entries before loading from CSV
     localStorage.removeItem('entries');
 
     var input = document.createElement('input');
@@ -142,7 +140,6 @@ function loadFromCSV() {
         reader.readAsText(file);
     });
 
-    // Trigger the input click event when the button is clicked
     input.click();
 }
 
@@ -154,4 +151,18 @@ function clearAllData() {
     });
 
     localStorage.removeItem('entries'); // Clear saved entries
+}
+
+function changeColor() {
+    var colorDropdown = document.getElementById("colorDropdown");
+    if (colorDropdown.style.display === "none") {
+        colorDropdown.style.display = "block";
+    } else {
+        colorDropdown.style.display = "none";
+    }
+}
+
+function selectColor() {
+    var selectedColor = document.getElementById("colorSelect").value;
+    document.body.style.backgroundColor = selectedColor;
 }

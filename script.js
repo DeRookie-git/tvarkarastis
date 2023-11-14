@@ -30,13 +30,14 @@ function addElement(day) {
         return;
     }
 
-    // Create a string entry for the user input
-    var entry = `${day},${timeStart},${timeEnd},${name},${surname},${activity},${roomNumber},${buildingCode}`;
+    // Create a string entry for the user input (excluding the day)
+    var entry = `${timeStart},${timeEnd},${name},${surname},${activity},${roomNumber},${buildingCode}`;
 
     // Append the entry to the respective day's list
     var dayList = document.getElementById(day + "List");
     var listItem = document.createElement("li");
     listItem.innerHTML = `<span class="delete-btn" onclick="deleteElement(this, '${day}')">Delete</span>${entry}`;
+    listItem.setAttribute('data-day', day); // Store the day information as a data attribute
     dayList.appendChild(listItem);
 
     // Save the entry separately for CSV export
@@ -53,7 +54,7 @@ function deleteElement(element, day) {
     var dayList = document.getElementById(day + "List");
     dayList.removeChild(listItem);
 
-    // Update saved entries list
+    // Update saved entries list by reconstructing the entries without deleted item
     updateSavedEntries();
     saveDataToFile();
 }
@@ -67,7 +68,9 @@ function updateSavedEntries() {
         var items = dayList.querySelectorAll('li');
 
         items.forEach(function (item) {
-            entries.push(item.innerText.trim());
+            // Exclude 'Delete' and reconstruct the entry
+            var reconstructedEntry = item.innerText.replace('Delete', '').trim();
+            entries.push(reconstructedEntry);
         });
     });
 
@@ -120,6 +123,9 @@ function processDataFromCSV(csv) {
 }
 
 function loadFromCSV() {
+    // Clear existing entries before loading from CSV
+    localStorage.removeItem('entries');
+
     var input = document.createElement('input');
     input.type = 'file';
     input.accept = '.csv';
@@ -138,4 +144,14 @@ function loadFromCSV() {
 
     // Trigger the input click event when the button is clicked
     input.click();
+}
+
+function clearAllData() {
+    var dayContainers = document.querySelectorAll('.day-container');
+    dayContainers.forEach(function (container) {
+        var dayList = container.querySelector('.day-list');
+        dayList.innerHTML = ''; // Clear all entries from the UI
+    });
+
+    localStorage.removeItem('entries'); // Clear saved entries
 }

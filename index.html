@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Local Website</h1>
+
+    <!-- Days -->
+    <div class="day-container" id="Monday">
+        <h2>Monday</h2>
+        <ul class="day-list" id="MondayList"></ul>
+        <button class="add-element-btn" onclick="addElement('Monday')">Add Element</button>
+    </div>
+
+    <div class="day-container" id="Tuesday">
+        <h2>Tuesday</h2>
+        <ul class="day-list" id="TuesdayList"></ul>
+        <button class="add-element-btn" onclick="addElement('Tuesday')">Add Element</button>
+    </div>
+
+    <div class="day-container" id="Wednesday">
+        <h2>Wednesday</h2>
+        <ul class="day-list" id="WednesdayList"></ul>
+        <button class="add-element-btn" onclick="addElement('Wednesday')">Add Element</button>
+    </div>
+
+    <div class="day-container" id="Thursday">
+        <h2>Thursday</h2>
+        <ul class="day-list" id="ThursdayList"></ul>
+        <button class="add-element-btn" onclick="addElement('Thursday')">Add Element</button>
+    </div>
+
+    <div class="day-container" id="Friday">
+        <h2>Friday</h2>
+        <ul class="day-list" id="FridayList"></ul>
+        <button class="add-element-btn" onclick="addElement('Friday')">Add Element</button>
+    </div>
+
+    <button onclick="saveToCSV()">Save to CSV</button>
+    <button onclick="loadFromCSV()">Load from CSV</button>
+    
+    <script src="script.js"></script>
+</body>
+</html>

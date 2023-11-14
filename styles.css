@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.day-container {
+    margin-bottom: 20px;
+}
+
+.day-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.add-element-btn {
+    margin-top: 10px;
+}
+
+.delete-btn {
+    margin-left: 10px;
+    color: red;
+    cursor: pointer;
+}
+
+/* Table styles */
+.day-list li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+
+/* Hide the day information in list entries */
+.day-list li {
+    display: flex;
+    justify-content: flex-start; /* Aligns entries to the left */
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+
+/* Hide the day part in each list entry */
+.day-list li::before {
+    content: attr(data-day); /* Show the day part as content */
+    display: none; /* Hide the actual content */
+}
+
+/* Set background color of the page */
+body {
+    background-color: #92987d;
+}

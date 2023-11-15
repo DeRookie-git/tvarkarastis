@@ -33,7 +33,7 @@ body {
 /* Hide the day information in list entries */
 .day-list li {
     display: flex;
-    justify-content: flex-start; /* Aligns entries to the left */
+    justify-content: flex-start; /* Align entries to the left */
     border-bottom: 1px solid #ccc;
     padding: 5px;
 }

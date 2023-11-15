@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
 });
 
+// Change var into let !!!!!!!
 function addElement(day) {
-    var timeStart = prompt("Enter Starting Time (e.g., 9:00 AM):");
+    var timeStart = prompt("Enter Starting Time (e.g., 9:00):");
     if (timeStart === null) return;
 
-    var timeEnd = prompt("Enter Ending Time (e.g., 10:00 AM):");
+    var timeEnd = prompt("Enter Ending Time (e.g., 10:00):");
     if (timeEnd === null) return;
 
     var name = prompt("Enter Name:");
@@ -27,8 +28,8 @@ function addElement(day) {
         alert("Please enter all fields.");
         return;
     }
-
-    // Create a string entry for the user input
+    // If we add a new entry, we also need to include it in var Entry to show up and in processFromCSV function to be read from the csv save file
+    // String entry for the user input
     var entry = `${timeStart},${timeEnd},${name},${surname},${activity},${roomNumber},${buildingCode}`;
 
     // Append the entry to the respective day's list with the day stored as a data attribute
@@ -38,11 +39,10 @@ function addElement(day) {
     listItem.setAttribute('data-day', day); // Store the day information as a data attribute
     dayList.appendChild(listItem);
 
-    // Save the entry separately for CSV export (including the day at the beginning)
-    var fullEntry = `${day},${entry}`;
+    // Saving the entry separately for CSV export 
+    var fullEntry = `${day},${entry}`; // Day because we save and load it but do not show it, unless it's added in var entry as ${day}
     saveEntryToStorage(fullEntry);
 
-    // Save data to file
     saveDataToFile();
 }
 
@@ -53,7 +53,7 @@ function deleteElement(element, day) {
     var dayList = document.getElementById(day + "List");
     dayList.removeChild(listItem);
 
-    // Update saved entries list by reconstructing the entries without deleted item
+    // Updating saved entries list by reconstructing the entries
     updateSavedEntries();
     saveDataToFile();
 }
@@ -67,7 +67,7 @@ function updateSavedEntries() {
         var items = dayList.querySelectorAll('li');
 
         items.forEach(function (item) {
-            // Exclude 'Delete' and reconstruct the entry
+            // If there's delete, we'll exclude it
             var reconstructedEntry = item.innerText.replace('Delete', '').trim();
             entries.push(reconstructedEntry);
         });
@@ -109,7 +109,7 @@ function processDataFromCSV(csv) {
     entries.forEach(function (entry) {
         const [day, start, end, name, surname, activity, roomNumber, buildingCode] = entry.split(',');
 
-        const reconstructedEntry = `${start},${end},${name},${surname},${activity},${roomNumber},${buildingCode}`;
+        const reconstructedEntry = `${start},${end},${name},${surname},${activity},${roomNumber},${buildingCode}`; // Jei pridesim ${day} tai rasys ir diena
 
         const listItem = document.createElement("li");
         listItem.setAttribute("data-day", day); // Set the data-day attribute
@@ -147,12 +147,12 @@ function clearAllData() {
     var dayContainers = document.querySelectorAll('.day-container');
     dayContainers.forEach(function (container) {
         var dayList = container.querySelector('.day-list');
-        dayList.innerHTML = ''; // Clear all entries from the UI
+        dayList.innerHTML = ''; // Clearing UI (globalus delete, istrina ir jeyra uzkrautu bet nepriskirtu entries)
     });
 
-    localStorage.removeItem('entries'); // Clear saved entries
+    localStorage.removeItem('entries');
 }
-
+        // --- wip stuff ---
 function changeColor() {
     var colorDropdown = document.getElementById("colorDropdown");
     if (colorDropdown.style.display === "none") {
